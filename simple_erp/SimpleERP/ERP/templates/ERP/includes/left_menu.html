@@ -1,0 +1,52 @@
+{%load static%}
+<aside class="left-panel">
+
+            <!-- brand -->
+            <div class="logo">
+                <a href="index-2.html" class="logo-expanded">
+                 
+                    <img src="{%static 'ERP/img/favicon-16x16.png' %}"></img>
+                    <span class="nav-label">Codesupporter</span>
+                </a>
+            </div>
+            <nav class="navigation">
+                <ul class="list-unstyled">
+                    <li class=""><a href="index-2.html"><i class="zmdi zmdi-view-dashboard"></i> <span class="nav-label">Dashboard</span></a></li>
+                    <li class="has-submenu">
+                        <a href="#"><i class="zmdi zmdi-format-underlined"></i> <span class="nav-label">Masters</span><span class="menu-arrow"></span></a>
+                        <ul class="list-unstyled">
+                            <li><a href="{% url 'ERP:list_company' %}">Company</a></li>
+                            <li><a href="{% url 'ERP:list_currency' %}">Currency</a></li>
+                            <li><a href="{% url 'ERP:list_state' %}">State</a></li>
+                             <li><a href="{% url 'ERP:list_warehouse' %}">Warehouse</a></li> 
+                             <li><a href="{% url 'ERP:list_unit' %}">Unit</a></li> 
+                             <li><a href="{% url 'ERP:itemgroup_list' %}">Item Group</a></li>
+                             <li><a href="{% url 'ERP:itemcolor_list' %}">Item Color</a></li>
+                             <li><a href="{% url 'ERP:itemsize_list' %}">Item Size</a></li>
+                             <li><a href="{% url 'ERP:itembrand_list' %}">Item Brand</a></li>
+                              <li><a href="{% url 'ERP:customergroup_list' %}">Customer Group</a></li>
+                              <li><a href="{% url 'ERP:taxgroup_list' %}">Tax Group</a></li>
+                              <li><a href="{% url 'ERP:tax_list' %}">Tax</a></li>
+                              <li><a href="{% url 'ERP:customergroup_list' %}">Customer Group</a></li>
+
+                              <li><a href="{% url 'ERP:suppliergroup_list' %}">Supplier Group</a></li>
+                        </ul>
+                         <li><a href="{% url 'ERP:customer_list' %}"><i class="zmdi zmdi-view-dashboard"></i>Customer
+                         </a></li>
+                          <li><a href="{% url 'ERP:supplier_list' %}"><i class="zmdi zmdi-view-dashboard"></i>Supplier </a></li>
+
+
+                    </li>
+                   
+                    
+                 
+                  
+
+                   
+
+                    
+                    
+                </ul>
+            </nav>
+                
+        </aside>
