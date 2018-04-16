@@ -5,6 +5,7 @@ from django.dispatch import receiver
 from datetime import datetime
 from django.core.exceptions import NON_FIELD_ERRORS
 
+
 # Create your models here.
 class Currency(models.Model):
     """Details of Currency Entity"""
@@ -183,8 +184,10 @@ class Customer(models.Model):
 class TaxGroup(models.Model):
     """docstring for TaxGroup"""
     name = models.CharField(max_length=100)
+    tax_per = models.FloatField(max_length=20)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
+    
     created_by = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='TaxGroup_Created_By_User', default=1)
     modified_by = models.ForeignKey(
@@ -196,9 +199,11 @@ class TaxGroup(models.Model):
         ]
 class Tax(models.Model):
     """docstring for Tax"""
+   
     tax_group = models.ForeignKey(TaxGroup, on_delete=models.CASCADE)
     tax_name = models.CharField(max_length=100)
     tax_per = models.FloatField(max_length=20)
+    tax_type=models.IntegerField(default=1)
     #buying = models.BooleanField(default=False)
     #selling = models.BooleanField(default=False)
     created_date = models.DateTimeField(auto_now_add=True)
@@ -321,8 +326,7 @@ class Item(models.Model):
         ItemGroup, on_delete=models.CASCADE, blank=True, null=True)
     variants = models.BooleanField(default=False)
     variants_of=models.IntegerField(default=0)
-    purchase_unit = models.ForeignKey(
-        Unit, on_delete=models.CASCADE,related_name='Item_Purchase_Unit', blank=True, null=True)
+    purchase_unit = models.ForeignKey(Unit, on_delete=models.CASCADE,related_name='Item_Purchase_Unit', blank=True, null=True)
 
     sales_unit = models.ForeignKey(
         Unit, on_delete=models.CASCADE,related_name='Item_Sales_Unit', blank=True, null=True)
@@ -339,17 +343,9 @@ class Item(models.Model):
     modified_by = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='Item_Modified_By_User', default=1)
     deleted = models.BooleanField(default=False)
+    tax_group = models.ForeignKey(TaxGroup, on_delete=models.CASCADE)
     class Meta:
         unique_together = [
             ("name","item_code", "deleted"),
         ]
 
-class ItemTax(models.Model):
-        tax_name=models.ForeignKey(Tax,on_delete=models.CASCADE,blank=False,null=False)
-        tax_rate=models.FloatField(max_length=20,default=0)
-        item=models.ForeignKey(Item,on_delete=models.CASCADE,blank=False,null=False)
-        deleted = models.BooleanField(default=False)
-        class Meta:
-            unique_together = [
-                ("tax_name","item", "deleted"),
-            ]

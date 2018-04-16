@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from ERP.models.masters import *
-
+from ERP.models.stock import *
 
 class ProfileSerializer(serializers.ModelSerializer):
     """docstring for UserSerializer"""
@@ -131,10 +131,50 @@ class ItemSerializer(serializers.ModelSerializer):
         """docstring for Meta"""
         model = Item
         fields = "__all__"
-
-class ItemTaxSerializer(serializers.ModelSerializer):
+        
+class StockEntrySerializer(serializers.ModelSerializer):
     """docstring for Tax"""
     class Meta(object):
         """docstring for Meta"""
-        model = ItemTax
+        model = StockEntry
         fields = "__all__"
+        
+class Stockentry_itemsSerializer(serializers.ModelSerializer):
+    """docstring for Tax"""
+    class Meta(object):
+        """docstring for Meta"""
+        model = Stockentry_items
+        fields = "__all__"
+        
+class Serial_noSerializer(serializers.ModelSerializer):
+    """docstring for Tax"""
+    class Meta(object):
+        """docstring for Meta"""
+        model = Serial_no
+        fields = "__all__"
+        
+        
+class Serial_no_trackingSerializer(serializers.ModelSerializer):
+    """docstring for Tax"""
+    class Meta(object):
+        """docstring for Meta"""
+        model = Serial_no_tracking
+        fields = "__all__"
+
+class StockSerializer(serializers.ModelSerializer):
+    """docstring for Tax"""
+    class Meta(object):
+        """docstring for Meta"""
+        model = Stock
+        fields = "__all__"
+
+class Stock_TrackingSerializer(serializers.ModelSerializer):
+    """docstring for Tax"""
+    class Meta(object):
+        """docstring for Meta"""
+        model = Stock_Tracking
+        fields = "__all__"
+        
+
+
+

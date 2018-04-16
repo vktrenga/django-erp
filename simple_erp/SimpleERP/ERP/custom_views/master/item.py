@@ -10,6 +10,7 @@ from rest_framework.decorators import api_view, permission_classes
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import  settings
 from django.urls import reverse
+import json
 
 row_per_page=settings.GLOBAL_SETTINGS['row_per_page']
 @api_view(['GET', 'POST'])
@@ -17,6 +18,12 @@ def item_create(request):
     if request.method == 'GET':
         return Response({'data':'', 'module':'Item'}, template_name='ERP/master/item/create_update.html')
     else:
+        mutable = request.POST._mutable
+        request.POST._mutable = True
+        #request.POST['item_code'] = 'test data Rengaraj'
+        #data= request.data
+        #return Response({'data':data, 'module':'Item'}, template_name='ERP/master/item/test.html')
+
         serializer = ItemSerializer(data=request.data)
         if serializer.is_valid():
             user_id= session_user_id(request)
@@ -101,6 +108,27 @@ def item_delete(request,id):
 
 
 @api_view(['GET', 'POST'])
+def item_list_autocomplete(request):
+    if request.is_ajax():
+        q = request.GET.get('term', '')
+        custom_filter={}
+        custom_filter['deleted']=0
+        items = Item.objects.filter(**custom_filter)
+        results = []
+        for item in items:
+            item_json = {}
+            item_json['id'] = item.id
+            item_json['label'] = item.item_code +" "+item.name
+            item_json['value'] = item.item_code
+            results.append(item_json)
+        data = json.dumps(results)
+    else:
+        data = 'fail'
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)
+
+
+@api_view(['GET', 'POST'])
 #@permission_classes((IsAuthenticated, ))
 def item_list(request):
      custom_filter={}
@@ -108,7 +136,15 @@ def item_list(request):
      try:
         if request.data['name']:
             custom_filter['name']=request.data['name']
-       
+        
+        if request.data['item_code']:
+            custom_filter['item_code']=request.data['item_code']
+            
+        if request.data['group']:
+            custom_filter['group']=request.data['group']
+            
+        if request.data['tax_group']:
+            custom_filter['tax_group']=request.data['tax_group']
      except:
         pass
      model_obj = Item.objects.filter(**custom_filter)

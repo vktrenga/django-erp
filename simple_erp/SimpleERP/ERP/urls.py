@@ -1,6 +1,6 @@
 from django.conf.urls import url,include
 from ERP.custom_views.master import company,currency,state,warehouse,unit,itemgroup,customergroup,taxgroup,tax,suppliergroup,supplier,customer,itemsize,itemcolor,itembrand,item
-
+from ERP.custom_views.stock import stockentry
 from ERP.custom_views import default
 from django.conf import settings
 app_name = 'ERP'
@@ -106,7 +106,17 @@ urlpatterns = [
     url(r'^item/update/(?P<id>[^/]*)/$', item.item_update),
     url(r'^item/view/(?P<id>[^/]*)/$', item.item_view),
     url(r'^item/list/', item.item_list, name='item_list'),
-    url(r'^item/delete/(?P<id>[^/]*)/$', item.item_delete)
+    url(r'^item/delete/(?P<id>[^/]*)/$', item.item_delete),
+    url(r'^item/delete/(?P<id>[^/]*)/$', item.item_delete),
+    url(r'^item/item_list_autocomplete/', item.item_list_autocomplete),
+    
+    url(r'^stockentry/create/', stockentry.stockentry_create,name='stockentry_create'),
+    url(r'^stockentry/stockentry_items/', stockentry.stockentry_items,name='stockentry_items'),
+    #url(r'^stockentry/update/(?P<id>[^/]*)/$', stockentry.stockentry_update),
+    #url(r'^stockentry/view/(?P<id>[^/]*)/$', stockentry.stockentry_view),
+    #url(r'^stockentry/list/', stockentry.stockentry_list, name='stockentry_list'),
+    #url(r'^stockentry/delete/(?P<id>[^/]*)/$', stockentry.stockentry_delete),
+    
 
 ]
 

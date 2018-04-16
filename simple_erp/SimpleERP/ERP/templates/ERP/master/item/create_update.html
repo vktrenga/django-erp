@@ -25,7 +25,7 @@
                         <h3 class="title"> {{ module }}</h3> 
                     </div>
                     <div class="col-md-6 text-right">
-                     <a href="{% url 'ERP:list_company' %}">  <i class="fa fa-eye fa-2x text-inverse"></i> </a>
+                     <a href="{% url 'ERP:item_list' %}">  <i class="fa fa-eye fa-2x text-inverse"></i> </a>
                     </div>
                         
                   </div>
@@ -73,12 +73,12 @@
                                        {% drop_down_list tableName="ERP_itemgroup" show_field_name="name" store_field_name="id" as list_dorp %}
                                        
 
-                                        <label for="default_currency">Group</label>
-                                        <select class="form-control" id="default_currency" name="default_currency">
+                                        <label for="group">Group</label>
+                                        <select class="form-control" id="group" name="group">
                                             <option value="">-- Select Group -- </option>
                                             {% for list_dorp_val in list_dorp %}
                                                 <option value="{{ list_dorp_val.id }}" 
-                                                {% if list_dorp_val.id == data.default_currency %}
+                                                {% if list_dorp_val.id == data.group %}
     selected="true" 
     {% endif%} 
 
@@ -91,12 +91,13 @@
                                        {% drop_down_list tableName="ERP_itembrand" show_field_name="name" store_field_name="id" as list_dorp %}
                                        
 
-                                        <label for="default_currency">Brand</label>
-                                        <select class="form-control" id="default_currency" name="default_currency">
+                                        <label for="brand_id">Brand</label>
+                                        <select class="form-control" id="brand" name="brand">
                                             <option value="">-- Select Brand -- </option>
                                             {% for list_dorp_val in list_dorp %}
                                                 <option value="{{ list_dorp_val.id }}" 
-                                                {% if list_dorp_val.id == data.default_currency %}
+                                                
+                                                {% if list_dorp_val.id == data.brand %}
     selected="true" 
     {% endif%} 
 
@@ -111,12 +112,12 @@
                                        {% drop_down_list tableName="ERP_itemcolor" show_field_name="name" store_field_name="id" as list_dorp %}
                                        
 
-                                        <label for="default_currency">Color</label>
-                                        <select class="form-control" id="default_currency" name="default_currency">
+                                        <label for="color_id">Color</label>
+                                        <select class="form-control" id="color" name="color">
                                             <option value="">-- Select Color -- </option>
                                             {% for list_dorp_val in list_dorp %}
                                                 <option value="{{ list_dorp_val.id }}" 
-                                                {% if list_dorp_val.id == data.default_currency %}
+                                                {% if list_dorp_val.id == data.color %}
     selected="true" 
     {% endif%} 
 
@@ -130,12 +131,12 @@
                                        {% drop_down_list tableName="ERP_itemsize" show_field_name="name" store_field_name="id" as list_dorp %}
                                        
 
-                                        <label for="default_currency">Size</label>
-                                        <select class="form-control" id="default_currency" name="default_currency">
+                                        <label for="size_id">Size</label>
+                                        <select class="form-control" id="size" name="size">
                                             <option value="">-- Select Size -- </option>
                                             {% for list_dorp_val in list_dorp %}
                                                 <option value="{{ list_dorp_val.id }}" 
-                                                {% if list_dorp_val.id == data.default_currency %}
+                                                {% if list_dorp_val.id == data.size %}
     selected="true" 
     {% endif%} 
 
@@ -168,8 +169,8 @@
                                         <label class="col-md-12 control-label">Serial No:</label>
                                         <div class="col-md-12">
                                             <div class="radio-inline">
-                                                <label class="cr-styled" for="serial">
-                                                    <input type="radio" id="serial" name="serial" value="1" {% if data.is_default %}
+                                                <label class="cr-styled" for="serial1">
+                                                    <input type="radio" id="serial1" name="serial" value="1" {% if data.is_default %}
     checked="true" 
     {% endif%} > 
                                                     <i class="fa"></i>
@@ -189,7 +190,7 @@
                                         </div>
                                     </div>   
 
-                                    <div class="form-group"> 
+                                    <div class="form-group serial_prefix_div"> 
                                         <label for="prefix_serial_no" class="control-label">Prefix-Serial No</label>
                                         <input type="text" class="form-control" id="serila_prefix" name="serila_prefix" placeholder="Enter Serial Prefix" value="{{data.serila_prefix}}">
                                     </div>
@@ -282,13 +283,29 @@
                                         </div>
                                         
                                     </div> 
-                                    
+                                     <div class="form-group">
+                                       {% drop_down_list tableName="ERP_taxgroup" show_field_name="name" store_field_name="id" as list_dorp %}
+                                       
+
+                                        <label for="default_currency">Tax Group</label>
+                                        <select class="form-control" id="tax_group" name="tax_group">
+                                            <option value="">-- Select Tax Group -- </option>
+                                            {% for list_dorp_val in list_dorp %}
+                                                <option value="{{ list_dorp_val.id }}" 
+                                                {% if list_dorp_val.id == data.tax_group %}
+    selected="true" 
+    {% endif%} 
+
+                                                > {{ list_dorp_val.text }} </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>  
                                   </div>                              
                             </div><!--</D </div><panel-body -->
                         </div> <!-- panel -->
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-heading"><h3 class="panel-title">{{ module }} Variants</h3></div>
                             <div class="panel-body">
@@ -320,41 +337,20 @@
                                     <div class="variants_div">
                                     <div class="form-group">
                                         <label for="item_code">Variants Name</label>
-                                        <input type="text" class="form-control" id="variant_name" name="variant_name" placeholder="Enter Variant Name" value="{{data.item_code}}" >
+                                        <input type="text" class="form-control" id="variant_name1" name="variant_name[]" placeholder="Enter Variant Name" value="{{data.item_code}}" >
                                     </div>
                                     
                                     <div class="form-group">
                                         
-                                        <input type="text" class="form-control" id="variant_name" name="variant_name" placeholder="Enter Variant Name" value="{{data.item_code}}" >
+                                        <input type="text" class="form-control" id="variant_name2" name="variant_name[]" placeholder="Enter Variant Name" value="{{data.item_code}}" >
                                     </div>
                                    </div>   
-                                    <div class="form-group">
-                                        <label for="variant_plus" id="variant_plus">+</label>
+                                    <div class="form-group variants_div_plus">
+                                        <a href="javascript:void(0)"><label for="variant_plus" id="variant_plus">+</label></a>
                                     </div>
                             </div>
                         </div>
-                         </div> <div class="col-md-6">
-                        <div class="panel panel-default">
-                            <div class="panel-heading"><h3 class="panel-title">{{ module }} Tax</h3></div>
-                            <div class="panel-body">
-                                
-                                    <div class="variants_div">
-                                    <div class="form-group">
-                                        <label for="item_code">Tax Names</label>
-                                        <input type="text" class="form-control" id="variant_name" name="variant_name" placeholder="Enter Variant Name" value="{{data.item_code}}" >
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        
-                                        <input type="text" class="form-control" id="variant_name" name="variant_name" placeholder="Enter Variant Name" value="{{data.item_code}}" >
-                                    </div>
-                                   </div>   
-                                    <div class="form-group">
-                                        <label for="item_tax_plus" id="item_tax_plus">+</label>
-                                    </div>
-                            </div>
-                        </div>
-                         </div>
+                         </div> 
                    </div>
 
 
@@ -392,12 +388,39 @@ $(document).ready(function() {
         FrmValidate();
         //alert("RE:");
     }); 
-    
+    $('input[type=radio][name=variants]').change(function() {
+    	
+        if (this.value == '1') {
+            $(".variants_div").show();
+            $(".variants_div_plus").show();
+        }
+        else if (this.value == '0') {
+        	$(".variants_div").hide();
+            $(".variants_div_plus").hide();
+        }
+    });
+ $('input[type=radio][name=serial]').change(function() {
+    	//alert("TEst");
+        if (this.value == '1') {
+            $(".serial_prefix_div").show();
+            
+        }
+        else if (this.value == '0') {
+        	$(".serial_prefix_div").hide();
+           
+        }
+    });
 });
-$("#item_tax_plus").click(function(){
-          var taxes='';  
-        alert(taxes)
+variant_plus_cout=2;
+$("#variant_plus").click(function(){
+		  variant_plus_cout++;
+          vari_div='<div class="form-group" > <input type="text" class="form-control" id="variant_name'+variant_plus_cout+'" name="variant_name[]" placeholder="Enter Variant Name"  ></div>';
+    	  $(".variants_div").append(vari_div);
+    	  
+    	  
+    	 // alert(vari_div);
     }); 
+   
 function FrmValidate(){
     $("#frm").validate({
         rules : {

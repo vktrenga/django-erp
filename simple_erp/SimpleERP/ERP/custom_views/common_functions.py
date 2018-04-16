@@ -14,3 +14,10 @@ def session_user_id(request):
 
 def store_date_time():
 	return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+def db_store_date(date):
+	#d = datetime.datetime.strptime(date, '%d-%m-%Y')
+	#
+	#return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+	return datetime.strptime(date, '%d-%m-%Y').strftime( "%Y-%m-%d %H:%M:%S")
+	#datetime.date.strftime(date, "%Y-%m-%d")

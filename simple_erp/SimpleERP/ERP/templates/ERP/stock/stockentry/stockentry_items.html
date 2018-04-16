@@ -1,0 +1,33 @@
+{% csrf_token %}
+<div class="table-responsive">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>S.No</th>
+				<th>Item Name</th>
+				<th>Qty</th>
+				<th>Serial No</th>
+				<th>Batch No</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>{{forloop.counter}}</td>
+				<td>{{lists_val.name}}</td>
+				<td>{{lists_val.name}}</td>
+				<td>{{lists_val.name}}</td>
+				<td>{{lists_val.name}}</td>
+			</tr>
+
+			<tr>
+				<td>{{lists_val.name}}</td>
+				<td>{{lists_val.name}}</td>
+				<td>{{lists_val.name}}</td>
+				<td>{{lists_val.name}}</td>
+				<td>{{lists_val.name}}</td>
+			</tr>
+
+
+		</tbody>
+	</table>
+</div>

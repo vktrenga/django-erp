@@ -1,9 +1,18 @@
 from datetime import datetime
 from django import template
+from random import choice
 register = template.Library()
 from ERP.models.masters import *
 from django.db import connection
 
+
+YEAR_IN_SCHOOL_CHOICES = (
+    ('FR', 'Freshman'),
+    ('SO', 'Sophomore'),
+    ('JR', 'Junior'),
+    ('SR', 'Senior'),
+)
+purpose = {1: 'Stock Receipt', 2: 'Stock Transfer',3:'Stock Scrap'}
 @register.simple_tag
 def current_year():
 	#return "Something"
@@ -36,3 +45,16 @@ def drop_down_list(tableName,show_field_name,store_field_name):
 		for obj in rows:
 			data.append({"id":(obj[0]),"text":(obj[1])})
 		return data
+
+@register.simple_tag
+def drop_down_choice(choice_name):
+	data = []
+	if choice_name=="purpose":
+		dict_name=purpose
+	for k, v in dict_name.items():
+		#print k, v
+		data.append({"id":k,"text":v})
+	return data
+	
+	
+	

@@ -64,28 +64,58 @@
                             </div>
                             <div id="portlet1" class="panel-collapse collapse" aria-expanded="true" ><div class="row"> 
                             <form  method="post">   
-                               <div class="col-md-4">  
+                               <div class="col-md-3">  
                                     <div class="form-group">
-                                        <label for="name">Name</label>
+                                        <label for="name">Item Name</label>
                                         <input type="text" class="form-control" id="name" name="name"  value="{{custom_filter.name}}" placeholder="Enter Name">
                                     </div>
                                    
                                     
                                    </div>
-                               <div class="col-md-4"> 
+                               <div class="col-md-3"> 
                                     <div class="form-group">
-                                        <label for="short_name">Short Name</label>
-                                        <input type="text" class="form-control" id="short_name" name="short_name" placeholder="Enter Short Name" value="{{custom_filter.short_name}}">
+                                        <label for="short_name">Item Code</label>
+                                        <input type="text" class="form-control" id="item_code" name="item_code" placeholder="Enter Item Code" value="{{custom_filter.item_code}}">
                                     </div>
                                     
                                    </div>
-                               <div class="col-md-4">  
-                                    <div class="form-group">
-                                        <label for="text">Mobile No</label>
-                                        <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Enter Mobile No" 
-                                        value="{{custom_filter.mobile}}">
-                                    </div>
+                               <div class="col-md-3">  
+                                   <div class="form-group">
+                                       {% drop_down_list tableName="ERP_itemgroup" show_field_name="name" store_field_name="id" as list_dorp %}
+                                       
+
+                                        <label for="group">Group</label>
+                                        <select class="form-control" id="group" name="group">
+                                            <option value="">-- Select Group -- </option>
+                                            {% for list_dorp_val in list_dorp %}
+                                                <option value="{{ list_dorp_val.id }}" 
+                                                {% if custom_filter.group == list_dorp_val.id %}
+    selected="true" 
+    {% endif%} 
+
+                                                > {{ list_dorp_val.text }} </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>  
+
                                 </div>
+                                <div class="col-md-3">  
+                                    <div class="form-group">
+                                       {% drop_down_list tableName="ERP_taxgroup" show_field_name="name" store_field_name="id" as list_dorp %}
+                                       
+
+                                        <label for="default_currency">Tax Group</label>
+                                        <select class="form-control" id="tax_group" name="tax_group">
+                                            <option value="">-- Select Tax Group -- </option>
+                                            {% for list_dorp_val in list_dorp %}
+                                                <option value="{{ list_dorp_val.id }}" 
+                                                {% if custom_filter.tax_group == list_dorp_val.id %}
+    selected="true" 
+    {% endif%}> {{ list_dorp_val.text }} </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>  
+                                </div>{{custom_filter.tax_group }}
                                     <div class="col-md-12 pull-right text-right"><button type="submit" class="btn btn-primary submit_btn">Search</button></div>
                                 </form>
                            </div>
@@ -103,33 +133,58 @@
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th>Company Name</th>
-                                                        <th>Short Name</th>
-                                                        <th>Email </th>
-                                                        <th>Mobile</th>
-                                                        <th>Address</th>
+                                                        <th>Item Name</th>
+                                                        <th>Item Code</th>
+                                                        <th>Item Group </th>
+                                                        <th>Tax Group</th>
+                                                        <th>Sales Unit</th>
+                                                        <th>Purchase Unit</th>
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
 
                                                     {% for lists_val in data %}
+<!--                                                     {{lists_val}} -->
                                                     <tr>
                                                         <td>{{forloop.counter}}</td>
                                                         <td>{{lists_val.name}}</td>
-                                                        <td>{{lists_val.short_name}}</td>
-                                                        <td>{{lists_val.email}}</td>
-                                                        <td>{{lists_val.mobile}}</td>
-                                                        <td>{{lists_val.address}}</td>
+                                                        <td>{{lists_val.item_code}}</td>
+                                                        <td>
+                                                        {% if lists_val.group %}
+                                                      	{% show_single_field tableName="ERP_itemgroup" show_field_name="name" pk=lists_val.group as list_dorp %} {{list_dorp}}
+                                                      	{% endif %}
+                                                        
+                                                        </td>
+                                                        <td>
+                                                        
+                                                         {% if lists_val.tax_group %}
+                                                      	{% show_single_field tableName="ERP_taxgroup" show_field_name="name" pk=lists_val.tax_group as list_dorp %} {{list_dorp}}
+                                                      	{% endif %}
+                                                        </td>
+                                                        <td>
+                                                         {% if lists_val.sales_unit %}
+                                                      	{% show_single_field tableName="ERP_unit" show_field_name="unit_name" pk=lists_val.sales_unit as list_dorp %} {{list_dorp}}
+                                                      	{% endif %}
+                                                        
+                                                        
+                                                        </td>
+                                                        <td>
+                                                        {% if lists_val.purchase_unit %}
+                                                      	{% show_single_field tableName="ERP_unit" show_field_name="unit_name" pk=lists_val.purchase_unit as list_dorp %} {{list_dorp}}
+                                                      	{% endif %}
+                                                        
+                                                        </td>
                                                         <td>
                                                         <div class="dropup pull-right" >
                                                         <button class="btn  dropdown-toggle" type="button" data-toggle="dropdown" style="padding: 2px 10px;">
                                                          <span class="caret"></span></button>
                                                         <ul class="dropdown-menu pull-right" syle="z-index:1000px">
-                                                        <li><a href="/erp/company/update/{{ lists_val.id }}"><i class="fa fa-pencil"></i></a></li>
-                                                        <li><a href="/erp/company/view/{{ lists_val.id }}"><i class="fa fa-eye"></i></a></li>
-                                                         <li><a href="/erp/company/delete/{{ lists_val.id }}" onclick="return confirm_delete();" ><i class="fa fa-trash" ></i></a></li>
+                                                        <li><a href="/erp/item/update/{{ lists_val.id }}"><i class="fa fa-pencil"></i></a></li>
+                                                        <li><a href="/erp/item/view/{{ lists_val.id }}"><i class="fa fa-eye"></i></a></li>
+                                                         <li><a href="/erp/item/delete/{{ lists_val.id }}" onclick="return confirm_delete();" ><i class="fa fa-trash" ></i></a></li>
                                                         </ul>
+                                                      
                                                         </div>
                                                      </td>
                                                     </tr>
