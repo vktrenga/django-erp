@@ -173,6 +173,7 @@ class Customer(models.Model):
     shiping_address = models.CharField(max_length=200)
     gst_no = models.CharField(max_length=20,blank=True, null=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(
@@ -333,7 +334,7 @@ class Item(models.Model):
 
     serial=models.BooleanField(default=False)
     batch=models.BooleanField(default=False)
-    serila_prefix=models.CharField(max_length=10,blank=True, null=True)
+    serial_prefix=models.CharField(max_length=10,blank=True, null=True)
     convertion_qty = models.FloatField(max_length=20,default=1)
     maintain_stock=models.BooleanField(default=True)
     created_date = models.DateTimeField(auto_now_add=True)
@@ -344,8 +345,21 @@ class Item(models.Model):
         User, on_delete=models.CASCADE, related_name='Item_Modified_By_User', default=1)
     deleted = models.BooleanField(default=False)
     tax_group = models.ForeignKey(TaxGroup, on_delete=models.CASCADE)
+    serial_no_count=models.IntegerField(default=0)
     class Meta:
         unique_together = [
             ("name","item_code", "deleted"),
         ]
 
+class Series(models.Model):
+    
+    series_prefix=models.CharField(max_length=100)
+    company=models.ForeignKey(Company,on_delete=models.CASCADE,default=1)
+    series_count=models.IntegerField(default=0)
+    series_for=models.CharField(max_length=50)
+    is_default=models.BooleanField(default=True)
+    
+    
+    
+    
+    

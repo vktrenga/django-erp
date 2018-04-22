@@ -10,12 +10,14 @@ from .masters import *
 class StockEntry(models.Model):
     """docstring for StateMaster"""
     entry_date = models.DateTimeField()
+    series=models.CharField(max_length=100,default=None)
     purpose=models.IntegerField(default=0)
     warehouse_from=models.ForeignKey(
         WareHouse, on_delete=models.CASCADE, blank=True, null=True,related_name="StockEntry_Warehouse_From_WareHouse")
     warehouse_to=models.ForeignKey(
         WareHouse, on_delete=models.CASCADE, blank=True, null=True,related_name="StockEntry_Warehouse_To_WareHouse")
-    description=models.TextField()
+    description=models.TextField(blank=True, null=True)
+    status=models.IntegerField(default=0) # 0- Draft,1-Submitted,2-Canceled
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(
@@ -23,6 +25,7 @@ class StockEntry(models.Model):
     modified_by = models.ForeignKey(
         User, on_delete=models.CASCADE,default=1,related_name="StockEntry_Modified_By_User")
     deleted = models.BooleanField(default=False)
+    company=models.ForeignKey(Company,on_delete=models.CASCADE,default=1)
      
 class Stockentry_items(models.Model):
     stockentry=models.ForeignKey(
@@ -46,6 +49,7 @@ class Stockentry_items(models.Model):
     modified_by = models.ForeignKey(
         User, on_delete=models.CASCADE,  default=1,related_name="Stockentry_items_Modified_By_User")
     deleted = models.BooleanField(default=False)
+    company=models.ForeignKey(Company,on_delete=models.CASCADE,default=1)
     
 class Serial_no(models.Model):
     item=models.ForeignKey(

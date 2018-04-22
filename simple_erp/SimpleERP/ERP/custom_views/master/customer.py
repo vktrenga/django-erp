@@ -100,6 +100,7 @@ def customer_delete(request,id):
 
 
 @api_view(['GET', 'POST'])
+
 #@permission_classes((IsAuthenticated, ))
 def customer_list(request):
      custom_filter={}

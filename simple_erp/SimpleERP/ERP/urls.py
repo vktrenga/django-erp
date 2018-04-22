@@ -1,6 +1,7 @@
 from django.conf.urls import url,include
 from ERP.custom_views.master import company,currency,state,warehouse,unit,itemgroup,customergroup,taxgroup,tax,suppliergroup,supplier,customer,itemsize,itemcolor,itembrand,item
 from ERP.custom_views.stock import stockentry
+from ERP.custom_views.selling import price
 from ERP.custom_views import default
 from django.conf import settings
 app_name = 'ERP'
@@ -110,8 +111,30 @@ urlpatterns = [
     url(r'^item/delete/(?P<id>[^/]*)/$', item.item_delete),
     url(r'^item/item_list_autocomplete/', item.item_list_autocomplete),
     
-    url(r'^stockentry/create/', stockentry.stockentry_create,name='stockentry_create'),
+    
+    url(r'^stockentry/items_create/', stockentry.stockentry_items_create,name='stockentry_items_create'),
     url(r'^stockentry/stockentry_items/', stockentry.stockentry_items,name='stockentry_items'),
+    url(r'^stockentry/stockentryitems_delete/', stockentry.stockentryitems_delete),
+    
+    url(r'^stockentry/update/items_create/', stockentry.stockentry_items_create,name='stockentry_items_create'),
+    url(r'^stockentry/update/stockentry_items/', stockentry.stockentry_items,name='stockentry_items'),
+    url(r'^stockentry/update/stockentryitems_delete/', stockentry.stockentryitems_delete),
+    url(r'^stockentry/view/stockentry_items/', stockentry.stockentry_items,name='stockentry_items'),
+
+    url(r'^stockentry/create/', stockentry.stockentry_create,name='stockentry_create'),
+    url(r'^stockentry/update/(?P<id>[^/]*)/$', stockentry.stockentry_update),
+    url(r'^stockentry/list/', stockentry.stockentry_list, name='stockentry_list'),
+    url(r'^stockentry/view/(?P<id>[^/]*)/$', stockentry.stockentry_view, name='stockentry_view'),
+    url(r'^stockentry/delete/(?P<id>[^/]*)/$', stockentry.stockentry_delete),
+    
+    
+    url(r'^price/create/', price.price_create,name='price_create'),
+    url(r'^price/update/(?P<id>[^/]*)/$', price.price_update),
+    url(r'^price/view/(?P<id>[^/]*)/$', price.price_view),
+    url(r'^price/list/', price.price_list, name='price_list'),
+    url(r'^price/delete/(?P<id>[^/]*)/$', price.price_delete),
+
+    
     #url(r'^stockentry/update/(?P<id>[^/]*)/$', stockentry.stockentry_update),
     #url(r'^stockentry/view/(?P<id>[^/]*)/$', stockentry.stockentry_view),
     #url(r'^stockentry/list/', stockentry.stockentry_list, name='stockentry_list'),
